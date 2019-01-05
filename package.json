@@ -18,6 +18,8 @@
 	},
 	"homepage": "https://github.com/PhilipF5/api.PhilipFulgham.com#readme",
 	"dependencies": {
+		"@octokit/rest": "^16.3.2",
+		"moment": "^2.23.0",
 		"mongodb": "^3.1.10"
 	}
 }
