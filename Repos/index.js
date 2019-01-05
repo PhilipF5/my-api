@@ -34,14 +34,15 @@ async function loadLanguages(repo) {
 
 async function refresh(db) {
 	db.collection("repos").deleteMany({});
-	let repos = await octokit().repos.listForUser({
+	let repos = (await octokit().repos.listForUser({
 		username: "philipf5",
 		sort: "pushed",
 		direction: "desc",
 		headers: {
 			accept: "application/vnd.github.mercy-preview+json",
 		},
-	});
+	}))
+		.slice(0, process.env.REPOS_LIMIT);
 
 	await Promise.all(repos.data.map(r => loadLanguages(r)));
 	await Promise.all([

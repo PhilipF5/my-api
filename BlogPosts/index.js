@@ -34,7 +34,7 @@ async function refresh(db) {
 	});
 
 	await Promise.all([
-		db.collection("blogPosts").insertMany(feed.items),
+		db.collection("blogPosts").insertMany(feed.items.slice(0, process.env.POSTS_LIMIT)),
 		db.collection("cacheUpdates").insertOne({ type: "blogPosts", time: new Date() }),
 	]);
 }
