@@ -2,7 +2,11 @@ const mongodb = require("mongodb");
 
 module.exports = async function(context, req) {
 	let client = await mongodb.connect(process.env.MONGODB_URI);
-	let document = await client.db("philipfulgham").collection("textBlocks").findOne({ name: "bio" });
+	let document = await client
+		.db("philipfulgham")
+		.collection("textBlocks")
+		.findOne({ name: "bio" });
+
 	context.res = {
 		body: { ...document },
 	};

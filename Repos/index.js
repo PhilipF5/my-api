@@ -5,13 +5,23 @@ const octokit = require("@octokit/rest");
 module.exports = async function(context, req) {
 	let client = await mongodb.connect(process.env.MONGODB_URI);
 	let db = await client.db("philipfulgham");
-	let lastUpdate = await db.collection("cacheUpdates").find({ type: "repos" }).sort("time", -1).limit(1).toArray();
-	let cacheTime = lastUpdate[0] && lastUpdate[0].time || "1900-01-01T00:00:00.000Z";
+	let lastUpdate = await db
+		.collection("cacheUpdates")
+		.find({ type: "repos" })
+		.sort("time", -1)
+		.limit(1)
+		.toArray();
+
+	let cacheTime = (lastUpdate[0] && lastUpdate[0].time) || "1900-01-01T00:00:00.000Z";
 	if (moment().diff(moment(cacheTime), "minutes") > 60) {
 		await refresh(db, context);
 	}
 
-	let documents = await db.collection("repos").find().toArray();
+	let documents = await db
+		.collection("repos")
+		.find()
+		.toArray();
+
 	context.res = {
 		body: documents,
 	};
