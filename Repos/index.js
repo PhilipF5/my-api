@@ -34,19 +34,26 @@ async function loadLanguages(repo) {
 
 async function refresh(db) {
 	db.collection("repos").deleteMany({});
-	let repos = (await octokit().repos.listForUser({
+	let reposCall = await octokit().repos.listForUser({
 		username: "philipf5",
 		sort: "pushed",
 		direction: "desc",
 		headers: {
 			accept: "application/vnd.github.mercy-preview+json",
 		},
-	}))
-		.slice(0, process.env.REPOS_LIMIT);
+	});
 
-	await Promise.all(repos.data.map(r => loadLanguages(r)));
+	let repos = reposCall.data.slice(0, process.env.REPOS_LIMIT).map(r => ({
+		name: r.name,
+		url: r.html_url,
+		lastPushed: r.pushed_at,
+		topLanguage: r.language,
+		topics: r.topics,
+	}));
+
+	await Promise.all(repos.map(r => loadLanguages(r)));
 	await Promise.all([
-		db.collection("repos").insertMany(repos.data),
+		db.collection("repos").insertMany(repos),
 		db.collection("cacheUpdates").insertOne({ type: "repos", time: new Date() }),
 	]);
 }

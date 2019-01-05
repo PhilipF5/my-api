@@ -33,8 +33,14 @@ async function refresh(db) {
 		json: true,
 	});
 
+	let posts = feed.items.slice(0, process.env.POSTS_LIMIT).map(p => ({
+		title: p.title,
+		publishDate: p.pubDate,
+		url: p.link.replace(/\?source.*/, ""),
+	}));
+
 	await Promise.all([
-		db.collection("blogPosts").insertMany(feed.items.slice(0, process.env.POSTS_LIMIT)),
+		db.collection("blogPosts").insertMany(posts),
 		db.collection("cacheUpdates").insertOne({ type: "blogPosts", time: new Date() }),
 	]);
 }
