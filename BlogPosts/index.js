@@ -17,13 +17,13 @@ module.exports = async function(context, req) {
 		await refresh(db, context);
 	}
 
-	let documents = await db
+	let blogPosts = await db
 		.collection("blogPosts")
 		.find()
 		.toArray();
 
 	context.res = {
-		body: documents,
+		body: blogPosts,
 	};
 };
 
@@ -33,7 +33,7 @@ async function refresh(db) {
 		json: true,
 	});
 
-	let posts = feed.items.slice(0, process.env.POSTS_LIMIT).map(p => ({
+	let posts = feed.items.map(p => ({
 		title: p.title,
 		publishDate: p.pubDate,
 		url: p.link.replace(/\?source.*/, ""),

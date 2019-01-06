@@ -17,13 +17,13 @@ module.exports = async function(context, req) {
 		await refresh(db, context);
 	}
 
-	let documents = await db
+	let repos = await db
 		.collection("repos")
 		.find()
 		.toArray();
 
 	context.res = {
-		body: documents,
+		body: repos,
 	};
 };
 
@@ -43,7 +43,7 @@ async function refresh(db) {
 		},
 	});
 
-	let repos = reposCall.data.slice(0, process.env.REPOS_LIMIT).map(r => ({
+	let repos = reposCall.data.map(r => ({
 		name: r.name,
 		url: r.html_url,
 		lastPushed: r.pushed_at,
