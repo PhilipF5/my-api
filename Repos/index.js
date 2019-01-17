@@ -33,16 +33,21 @@ async function loadLanguages(repo) {
 }
 
 async function refresh(db) {
-	db.collection("repos").deleteMany({});
-	let reposCall = await octokit().repos.listForUser({
-		username: "philipf5",
-		sort: "pushed",
-		direction: "desc",
-		headers: {
-			accept: "application/vnd.github.mercy-preview+json",
-		},
-	});
+	let reposCall;
+	try {
+		reposCall = await octokit().repos.listForUser({
+			username: "philipf5",
+			sort: "pushed",
+			direction: "desc",
+			headers: {
+				accept: "application/vnd.github.mercy-preview+json",
+			},
+		});
+	} catch {
+		return;
+	}
 
+	db.collection("repos").deleteMany({});
 	let repos = reposCall.data.map(r => ({
 		name: r.name,
 		url: r.html_url,
