@@ -28,11 +28,16 @@ module.exports = async function(context, req) {
 };
 
 async function refresh(db) {
-	db.collection("blogPosts").deleteMany({});
-	let feed = await request.get("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@philipf5", {
-		json: true,
-	});
+	let feed;
+	try {
+		feed = await request.get("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@philipf5", {
+			json: true,
+		});
+	} catch {
+		return;
+	}
 
+	db.collection("blogPosts").deleteMany({});
 	let posts = feed.items.map(p => ({
 		title: p.title,
 		publishDate: p.pubDate,
