@@ -43,7 +43,7 @@ async function refresh(db) {
 				accept: "application/vnd.github.mercy-preview+json",
 			},
 		});
-	} catch {
+	} catch (error) {
 		return;
 	}
 

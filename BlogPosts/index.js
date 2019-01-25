@@ -33,7 +33,7 @@ async function refresh(db) {
 		feed = await request.get("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@philipf5", {
 			json: true,
 		});
-	} catch {
+	} catch (error) {
 		return;
 	}
 
