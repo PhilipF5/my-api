@@ -5,7 +5,7 @@ module.exports = async function(context, req) {
 	let document = await client
 		.db("philipfulgham")
 		.collection("textBlocks")
-		.findOne({ name: "bio" });
+		.findOne({ name: req.query.short ? "shortBio": "bio" });
 
 	context.res = {
 		body: { ...document },
