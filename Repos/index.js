@@ -20,6 +20,7 @@ module.exports = async function(context, req) {
 	let repos = await db
 		.collection("repos")
 		.find()
+		.sort("lastPushed", -1)
 		.toArray();
 
 	context.res = {
