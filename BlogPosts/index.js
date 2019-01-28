@@ -40,7 +40,7 @@ async function refresh(db) {
 	db.collection("blogPosts").deleteMany({});
 	let posts = feed.items.map(p => ({
 		title: p.title,
-		publishDate: p.pubDate,
+		publishDate: new Date(p.pubDate),
 		url: p.link.replace(/\?source.*/, ""),
 	}));
 

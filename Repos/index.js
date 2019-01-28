@@ -51,7 +51,7 @@ async function refresh(db) {
 	let repos = reposCall.data.map(r => ({
 		name: r.name,
 		url: r.html_url,
-		lastPushed: r.pushed_at,
+		lastPushed: new Date(r.pushed_at),
 		topLanguage: r.language,
 		topics: r.topics,
 	}));
