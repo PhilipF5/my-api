@@ -6,7 +6,11 @@ module.exports = async function(context, req) {
 
 	let projects = await db
 		.collection("projects")
-		.find({}, { sort: { featured: -1, name: 1 } })
+		.aggregate([
+			{ $lookup: { from: "repos", localField: "repo", foreignField: "name", as: "repo" } },
+			{ $lookup: { from: "skills", localField: "skills", foreignField: "name", as: "skills" } },
+			{ $sort: { featured: -1, name: 1 } },
+		])
 		.toArray();
 
 	context.res = {
