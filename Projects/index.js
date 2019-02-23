@@ -10,6 +10,8 @@ module.exports = async function(context, req) {
 			{ $lookup: { from: "repos", localField: "repo", foreignField: "name", as: "repo" } },
 			{ $lookup: { from: "skills", localField: "skills", foreignField: "name", as: "skills" } },
 			{ $lookup: { from: "skills", localField: "platform", foreignField: "name", as: "platform" } },
+			{ $unwind: { path: "$platform" } },
+			{ $unwind: { path: "$repo" } },
 			{ $sort: { featured: -1, name: 1 } },
 		])
 		.toArray();
