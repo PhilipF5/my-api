@@ -16,7 +16,7 @@ module.exports = async function(context, req) {
 			{
 				$addFields: {
 					image: { $concat: [STORAGE_ROOT, "projects/", { $toString: "$_id" }, ".png"] },
-					"platform.image": {
+					"platform.icon": {
 						$concat: [STORAGE_ROOT, "skills/", { $toString: "$platform._id" }, ".svg"],
 					},
 					skills: {
