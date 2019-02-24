@@ -12,7 +12,7 @@ module.exports = async function(context, req) {
 			{ $lookup: { from: "skills", localField: "skills", foreignField: "name", as: "skills" } },
 			{ $lookup: { from: "skills", localField: "platform", foreignField: "name", as: "platform" } },
 			{ $unwind: { path: "$platform" } },
-			{ $unwind: { path: "$repo" } },
+			{ $unwind: { path: "$repo", preserveNullAndEmptyArrays: true } },
 			{
 				$addFields: {
 					image: { $concat: [STORAGE_ROOT, "projects/", { $toString: "$_id" }, ".png"] },
