@@ -36,7 +36,7 @@ module.exports = async function(context, req) {
 					},
 				},
 			},
-			{ $sort: { featured: -1, name: 1 } },
+			{ $sort: { featured: -1, startDate: -1 } },
 		])
 		.toArray();
 
