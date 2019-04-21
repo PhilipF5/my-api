@@ -10,7 +10,7 @@ module.exports = async function(context, req) {
 				.sort("start", -1)
 				.limit(1)
 				.toArray())[0]
-		: await collection.find().toArray();
+		: await collection.find().sort("start", -1).toArray();
 
 	context.res = {
 		body: documents,
