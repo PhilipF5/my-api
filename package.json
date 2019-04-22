@@ -18,7 +18,7 @@
 	},
 	"homepage": "https://github.com/PhilipF5/api.PhilipFulgham.com#readme",
 	"dependencies": {
-		"@octokit/rest": "^16.15.0",
+		"@octokit/rest": "^16.25.0",
 		"moment": "^2.23.0",
 		"mongodb": "^3.1.10",
 		"request": "^2.88.0",
