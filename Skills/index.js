@@ -7,7 +7,8 @@ module.exports = async function(context, req) {
 		.db("philipfulgham")
 		.collection("skills")
 		.aggregate([
-			{ $addFields: { icon: { $concat: [STORAGE_ROOT, "skills/", { $toString: "$_id" }, ".svg"] } } }
+			{ $addFields: { icon: { $concat: [STORAGE_ROOT, "skills/", { $toString: "$_id" }, ".svg"] } } },
+			{ $sort: { name: 1 } },
 		])
 		.toArray();
 
