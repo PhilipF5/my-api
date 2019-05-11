@@ -1,22 +1,7 @@
 {
 	"name": "api.PhilipFulgham.com",
 	"version": "1.0.3",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/PhilipF5/api.PhilipFulgham.com.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/PhilipF5/api.PhilipFulgham.com/issues"
-	},
-	"homepage": "https://github.com/PhilipF5/api.PhilipFulgham.com#readme",
+	"author": "Philip Fulgham (https://www.philipfulgham.com)",
 	"dependencies": {
 		"@octokit/rest": "^16.25.0",
 		"moment": "^2.23.0",
