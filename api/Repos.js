@@ -25,12 +25,12 @@ export default async (req, res) => {
 	res.json(repos);
 };
 
-async function loadLanguages(repo) {
-	let res = await octokit().repos.listLanguages({ owner: "philipf5", repo: repo.name });
-	repo.languages = res.data;
-}
+const loadLanguages = async repo => {
+	const { data: languages } = await octokit().repos.listLanguages({ owner: "philipf5", repo: repo.name });
+	return { ...repo, languages };
+};
 
-async function refresh(db) {
+const refresh = async db => {
 	let reposCall;
 	try {
 		reposCall = await octokit().repos.listForUser({
@@ -46,7 +46,7 @@ async function refresh(db) {
 	}
 
 	db.collection("repos").deleteMany({});
-	let repos = reposCall.data.map(r => ({
+	const repos = reposCall.data.map(r => ({
 		name: r.name,
 		url: r.html_url,
 		lastPushed: new Date(r.pushed_at),
@@ -54,9 +54,9 @@ async function refresh(db) {
 		topics: r.topics,
 	}));
 
-	await Promise.all(repos.map(r => loadLanguages(r)));
+	await Promise.all(repos.map(loadLanguages));
 	await Promise.all([
 		db.collection("repos").insertMany(repos),
 		db.collection("cacheUpdates").insertOne({ type: "repos", time: new Date() }),
 	]);
-}
+};
