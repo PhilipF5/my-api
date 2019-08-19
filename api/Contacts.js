@@ -1,17 +1,12 @@
-const mongodb = require("mongodb");
+import { connect } from "mongodb";
 
-module.exports = async function(context, req) {
-	let client = await mongodb.connect(process.env.MONGODB_URI);
-	let collection = client.db("philipfulgham").collection("contacts");
-
-	let documents = await client
+export default async (req, res) => {
+	const client = await connect(process.env.MONGODB_URI);
+	const documents = await client
 		.db("philipfulgham")
 		.collection("contacts")
 		.find()
 		.sort("service", 1)
 		.toArray();
-
-	context.res = {
-		body: documents,
-	};
+	res.json(documents);
 };

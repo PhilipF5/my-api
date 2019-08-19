@@ -1,31 +1,28 @@
-const moment = require("moment");
-const mongodb = require("mongodb");
-const octokit = require("@octokit/rest");
+import * as octokit from "@octokit/rest";
+import * as moment from "moment";
+import { connect } from "mongodb";
 
-module.exports = async function(context, req) {
-	let client = await mongodb.connect(process.env.MONGODB_URI);
-	let db = await client.db("philipfulgham");
-	let lastUpdate = await db
+export default async (req, res) => {
+	const db = await connect(process.env.MONGODB_URI).db("philipfulgham");
+	const lastUpdate = await db
 		.collection("cacheUpdates")
 		.find({ type: "repos" })
 		.sort("time", -1)
 		.limit(1)
 		.toArray();
 
-	let cacheTime = (lastUpdate[0] && lastUpdate[0].time) || "1900-01-01T00:00:00.000Z";
+	const cacheTime = (lastUpdate[0] && lastUpdate[0].time) || "1900-01-01T00:00:00.000Z";
 	if (moment().diff(moment(cacheTime), "minutes") > 60) {
-		await refresh(db, context);
+		await refresh(db);
 	}
 
-	let repos = await db
+	const repos = await db
 		.collection("repos")
 		.find()
 		.sort("lastPushed", -1)
 		.toArray();
 
-	context.res = {
-		body: repos,
-	};
+	res.json(repos);
 };
 
 async function loadLanguages(repo) {

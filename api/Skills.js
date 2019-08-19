@@ -1,9 +1,9 @@
-const mongodb = require("mongodb");
+import { connect } from "mongodb";
 
-module.exports = async function(context, req) {
-	const STORAGE_ROOT = process.env.STORAGE_ROOT;
-	let client = await mongodb.connect(process.env.MONGODB_URI);
-	let documents = await client
+export default async (req, res) => {
+	const { MONGODB_URI, STORAGE_ROOT } = process.env;
+	const client = await connect(MONGODB_URI);
+	const documents = await client
 		.db("philipfulgham")
 		.collection("skills")
 		.aggregate([
@@ -11,8 +11,5 @@ module.exports = async function(context, req) {
 			{ $sort: { name: 1 } },
 		])
 		.toArray();
-
-	context.res = {
-		body: documents,
-	};
+	res.json(documents);
 };

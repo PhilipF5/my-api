@@ -1,11 +1,11 @@
-const mongodb = require("mongodb");
+import { connect } from "mongodb";
 
-module.exports = async function(context, req) {
-	const STORAGE_ROOT = process.env.STORAGE_ROOT;
-	let client = await mongodb.connect(process.env.MONGODB_URI);
-	let db = await client.db("philipfulgham");
+export default async (req, res) => {
+	const { MONGODB_URI, STORAGE_ROOT } = process.env;
+	const client = await connect(MONGODB_URI);
 
-	let projects = await db
+	const projects = await client
+		.db("philipfulgham")
 		.collection("projects")
 		.aggregate([
 			{ $lookup: { from: "repos", localField: "repo", foreignField: "name", as: "repo" } },
@@ -40,7 +40,5 @@ module.exports = async function(context, req) {
 		])
 		.toArray();
 
-	context.res = {
-		body: projects,
-	};
+	res.json(projects);
 };

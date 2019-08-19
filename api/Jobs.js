@@ -1,28 +1,26 @@
-const mongodb = require("mongodb");
+import { connect } from "mongodb";
 
-module.exports = async function(context, req) {
-	const STORAGE_ROOT = process.env.STORAGE_ROOT;
-	let client = await mongodb.connect(process.env.MONGODB_URI);
-	let collection = client.db("philipfulgham").collection("jobs");
+export default async (req, res) => {
+	const { MONGODB_URI, STORAGE_ROOT } = process.env;
+	const client = await connect(MONGODB_URI);
+	const collection = client.db("philipfulgham").collection("jobs");
 
-	let documents = req.query.latest
+	const documents = req.query.latest
 		? (await collection
 				.find()
 				.sort("start", -1)
 				.limit(1)
 				.toArray())[0]
 		: await collection
-			.aggregate([
-				{
-					$addFields: {
-						logo: { $concat: [STORAGE_ROOT, "orgs/", "$image"] },
+				.aggregate([
+					{
+						$addFields: {
+							logo: { $concat: [STORAGE_ROOT, "orgs/", "$image"] },
+						},
 					},
-				},
-				{ $sort: { start: -1 } },
-			])
-			.toArray();
+					{ $sort: { start: -1 } },
+				])
+				.toArray();
 
-	context.res = {
-		body: documents,
-	};
+	res.json(documents);
 };
