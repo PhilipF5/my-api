@@ -1,0 +1,7 @@
+{
+	"version": 2,
+	"env": {
+		"MONGODB_URI": "mongodb://localhost:27017/philipfulgham",
+		"STORAGE_ROOT": "https://philipfulgham.blob.core.windows.net/resources-beta/"
+	}
+}
