@@ -6,5 +6,6 @@ export default async (req, res) => {
 		.db("philipfulgham")
 		.collection("textBlocks")
 		.findOne({ name: req.query.short ? "shortBio" : "bio" });
+	res.setHeader("Cache-Control", "s-maxage=86400, max-age=0");
 	res.json({ ...document });
 };

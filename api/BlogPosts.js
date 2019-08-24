@@ -8,5 +8,6 @@ export default async (req, res) => {
 		.find()
 		.sort("publishDate", -1)
 		.toArray();
+	res.setHeader("Cache-Control", "s-maxage=86400, max-age=0");
 	res.json(blogPosts);
 };

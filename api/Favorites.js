@@ -7,5 +7,6 @@ export default async (req, res) => {
 		.collection("favorites")
 		.find()
 		.toArray();
+	res.setHeader("Cache-Control", "s-maxage=86400, max-age=0");
 	res.json(documents);
 };

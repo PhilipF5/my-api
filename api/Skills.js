@@ -11,5 +11,6 @@ export default async (req, res) => {
 			{ $sort: { name: 1 } },
 		])
 		.toArray();
+	res.setHeader("Cache-Control", "s-maxage=86400, max-age=0");
 	res.json(documents);
 };
