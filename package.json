@@ -4,7 +4,7 @@
 	"author": "Philip Fulgham (https://www.philipfulgham.com)",
 	"dependencies": {
 		"@octokit/rest": "^16.25.0",
-		"moment": "^2.23.0",
+		"luxon": "^1.17.2",
 		"mongodb": "^3.1.10",
 		"request": "^2.88.0",
 		"request-promise-native": "^1.0.5"

@@ -1,5 +1,5 @@
 import * as octokit from "@octokit/rest";
-import * as moment from "moment";
+import { DateTime } from "luxon";
 import { connect } from "mongodb";
 
 export default async (req, res) => {
@@ -12,7 +12,13 @@ export default async (req, res) => {
 		.toArray();
 
 	const cacheTime = (lastUpdate[0] && lastUpdate[0].time) || "1900-01-01T00:00:00.000Z";
-	if (moment().diff(moment(cacheTime), "minutes") > 60) {
+	if (
+		Math.abs(
+			DateTime.fromISO(cacheTime)
+				.diffNow()
+				.as("minutes")
+		) > 60
+	) {
 		await refresh(db);
 	}
 
