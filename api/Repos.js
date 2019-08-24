@@ -3,7 +3,7 @@ import * as moment from "moment";
 import { connect } from "mongodb";
 
 export default async (req, res) => {
-	const db = await connect(process.env.MONGODB_URI).db("philipfulgham");
+	const db = (await connect(process.env.MONGODB_URI)).db("philipfulgham");
 	const lastUpdate = await db
 		.collection("cacheUpdates")
 		.find({ type: "repos" })
