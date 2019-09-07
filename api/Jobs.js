@@ -1,4 +1,5 @@
 import { connect } from "mongodb";
+import { setCors } from "../lib/CorsHandler";
 
 export default async (req, res) => {
 	const { MONGODB_URI, STORAGE_ROOT } = process.env;
@@ -22,6 +23,7 @@ export default async (req, res) => {
 				])
 				.toArray();
 
+	setCors(req, res);
 	res.setHeader("Cache-Control", "s-maxage=86400, max-age=0");
 	res.json(documents);
 };
