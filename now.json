@@ -1,5 +1,7 @@
 {
 	"version": 2,
+	"name": "@philipf5/my-api",
+	"alias": "api.philipfulgham.com",
 	"env": {
 		"MONGODB_URI": "@mongodb-uri",
 		"STORAGE_ROOT": "@storage-root"
