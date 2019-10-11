@@ -3,6 +3,9 @@
 	"version": "1.1.0-pre.1",
 	"author": "Philip Fulgham (https://www.philipfulgham.com)",
 	"private": true,
+	"scripts": {
+		"start": "now dev"
+	},
 	"husky": {
 		"hooks": {
 			"pre-commit": "pretty-quick --staged"
@@ -17,6 +20,7 @@
 	},
 	"devDependencies": {
 		"husky": "^3.0.4",
+		"now": "^16.3.1",
 		"prettier": "^1.18.2",
 		"pretty-quick": "^1.11.1"
 	}
