@@ -3,6 +3,7 @@
 	"name": "@philipf5/my-api",
 	"alias": "api.philipfulgham.com",
 	"env": {
+		"CORS": "@cors",
 		"MONGODB_URI": "@mongodb-uri",
 		"STORAGE_ROOT": "@storage-root"
 	}
